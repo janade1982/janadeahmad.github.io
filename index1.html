@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janade Ahmad - DevOps Engineer</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f7fa;
+  color: #333;
+}
+
+header {
+  background: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 40px;
+}
+
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px;
+}
+
+h2 {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.job {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+}
+
+.skills span {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 6px 10px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+footer {
+  background: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Janade Ahmad</h1>
+  <p>Senior DevOps & Site Reliability Engineer</p>
+  <p>📧 janade.ahmd@gmail.com | 📞 +33 609755523</p>
+  <p>📍 Antibes, France</p>
+</header>
+
+<section>
+<h2>Profile</h2>
+<p>
+Experienced Senior DevOps & Site Reliability Engineer specialized in cloud-native infrastructure,
+automation, and scalable systems. Strong expertise in AWS, Azure, Kubernetes, CI/CD pipelines,
+and Infrastructure as Code (Terraform, Ansible).
+</p>
+</section>
+
+<section>
+<h2>Skills</h2>
+<div class="skills">
+<span>AWS</span><span>Azure</span><span>Kubernetes</span><span>Docker</span>
+<span>Terraform</span><span>CI/CD</span><span>Git</span><span>GitHub</span>
+<span>GitLab</span><span>Jenkins</span><span>Linux</span><span>Bash</span>
+<span>Prometheus</span><span>Grafana</span><span>Datadog</span>
+<span>Splunk</span><span>Kafka</span><span>Redis</span>
+<span>RabbitMQ</span><span>PostgreSQL</span><span>Oracle</span>
+<span>Nginx</span><span>Ansible</span><span>Helm</span>
+</div>
+</section>
+
+<!-- ADD EXPERIENCE -->
+<section>
+<h2>Add Experience</h2>
+
+<input id="jobTitle" placeholder="Job Title">
+<input id="company" placeholder="Company">
+<input id="period" placeholder="Period (e.g. 2024 - Present)">
+<textarea id="description" placeholder="Description"></textarea>
+
+<button onclick="addExperience()" style="padding:10px;background:#2563eb;color:white;border:none;border-radius:5px;">
+Add Experience
+</button>
+</section>
+
+<!-- EXPERIENCE LIST -->
+<section>
+<h2>Experience</h2>
+<div id="experienceList">
+
+<div class="job">
+<h3>Schneider Electric – Senior DevOps Engineer</h3>
+<p><i>08/2023 – Present</i></p>
+<ul>
+<li>AKS deployments, CI/CD pipelines, Terraform infrastructure, monitoring</li>
+</ul>
+</div>
+
+<div class="job">
+<h3>Thales – Senior SRE</h3>
+<p><i>11/2022 – 07/2023</i></p>
+<ul>
+<li>EKS infrastructure, CI/CD, monitoring with Datadog & Splunk</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>Education</h2>
+<p>Bachelor in Computer Science</p>
+</section>
+
+<footer>
+<p>© 2026 Janade Ahmad</p>
+</footer>
+
+<script>
+const STORAGE_KEY = "janade_experiences";
+
+// Load saved data
+window.onload = function () {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    data.forEach(exp => renderExperience(exp));
+};
+
+function addExperience() {
+    const title = document.getElementById("jobTitle").value;
+    const company = document.getElementById("company").value;
+    const period = document.getElementById("period").value;
+    const desc = document.getElementById("description").value;
+
+    if (!title || !company) {
+        alert("Fill required fields");
+        return;
+    }
+
+    const newExp = { title, company, period, desc };
+
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    data.unshift(newExp);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    renderExperience(newExp);
+
+    document.getElementById("jobTitle").value = "";
+    document.getElementById("company").value = "";
+    document.getElementById("period").value = "";
+    document.getElementById("description").value = "";
+}
+
+function renderExperience(exp) {
+    const container = document.getElementById("experienceList");
+
+    const job = document.createElement("div");
+    job.className = "job";
+
+    job.innerHTML = `
+        <h3>${exp.title} – ${exp.company}</h3>
+        <p><i>${exp.period}</i></p>
+        <ul><li>${exp.desc}</li></ul>
+        <button onclick="deleteExperience(this)" style="background:red;color:white;border:none;padding:5px;border-radius:4px;">
+        Delete</button>
+    `;
+
+    container.prepend(job);
+}
+
+function deleteExperience(button) {
+    const jobDiv = button.parentElement;
+    const title = jobDiv.querySelector("h3").innerText;
+
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+    data = data.filter(exp => (exp.title + " – " + exp.company) !== title);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    jobDiv.remove();
+}
+</script>
+
+</body>
+</html>
